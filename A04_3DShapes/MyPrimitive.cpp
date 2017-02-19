@@ -123,25 +123,33 @@ void MyPrimitive::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivis
 
 	//Your code starts here
 	float fValue = 0.5f;
-	//3--2
-	//|  |
-	//0--1
+
 	std::vector<vector3> point;
 	float theta = 0;
 	float steps = 2 * PI / static_cast<float>(a_nSubdivisions);
 	
 	point.push_back(vector3(0.0)); //Origin of the circle and world
 
-	for (int i = 0; i < a_nSubdivisions; i++) {
-		point.push_back(vector3(cos(theta), sin(theta), 0));
+	for (int i = 0; i < a_nSubdivisions; i++) { //Add the Rest of the circular points
+		point.push_back(vector3(cos(theta), 0, sin(theta)));
 		theta += steps;
 	}
 
-	for (int i = 1; i < a_nSubdivisions - 1; i++) {
-		AddTri(point[0], point[i], point[1 + i]);
+	point.push_back(vector3(0, a_fHeight, 0)); //Add the top of the cone's point
+
+	//Construct the circle at the bottom of the cone
+	for (int i = 1; i < a_nSubdivisions; i++) {
+		AddTri(point[0], point[i], point[i + 1]);
 	}
 
-	AddTri(point[0], point[a_nSubdivisions], point[1]);
+	AddTri(point[0], point[a_nSubdivisions], point[1]); //Last Triangle that completes the circle
+
+	//Construct the triangles for the height of the cone
+	for (int i = 1; i < a_nSubdivisions; i++) {
+		AddTri(point[a_nSubdivisions + 1], point[i+1], point[i]);
+	}
+
+	AddTri(point[a_nSubdivisions + 1], point[1], point[a_nSubdivisions]);
 
 	//Your code ends here
 	CompileObject(a_v3Color);
@@ -161,12 +169,66 @@ void MyPrimitive::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubd
 	//3--2
 	//|  |
 	//0--1
-	vector3 point0(-fValue, -fValue, fValue); //0
-	vector3 point1(fValue, -fValue, fValue); //1
-	vector3 point2(fValue, fValue, fValue); //2
-	vector3 point3(-fValue, fValue, fValue); //3
+	std::vector<vector3> point;
+	float theta = 0;
+	float steps = 2 * PI / static_cast<float>(a_nSubdivisions);
+	float circle1y = a_fHeight  * .5;
+	float circle2y = -1 * circle1y;
 
-	AddQuad(point0, point1, point3, point2);
+	// Add points to the list //
+	point.push_back(vector3(0, circle1y, 0)); //Origin of the first circle
+
+	for (int i = 0; i < a_nSubdivisions; i++) { //Add the Rest of the circular points
+		point.push_back(vector3(sin(theta), circle1y, cos(theta)));
+		theta += steps;
+	}
+
+	theta = 2* PI; //Reset Theta
+
+	point.push_back(vector3(0, circle2y, 0)); //Origin of the Second circle
+
+	for (int i = 0; i < a_nSubdivisions; i++) { //Add the Rest of the circular points
+		point.push_back(vector3(sin(theta), circle2y, cos(theta)));
+		theta -= steps;
+	}
+
+
+	// Construct the first circle at the bottom of the cone //
+	for (int i = 1; i < a_nSubdivisions; i++) { 
+		AddTri(point[0], point[i], point[i + 1]);
+	}
+
+	AddTri(point[0], point[a_nSubdivisions], point[1]); //Last Triangle that completes the circle
+
+	// Construct the second circle at the bottom of the cone //
+	for (int i = a_nSubdivisions + 2; i < a_nSubdivisions * 2 + 1; i++) { 
+		AddTri(point[a_nSubdivisions + 1], point[i], point[i + 1]);
+	}
+
+	AddTri(point[a_nSubdivisions + 1], point[a_nSubdivisions * 2 + 1], point[a_nSubdivisions + 2]); //Last Triangle that completes the circle
+
+
+//C--D
+//|\ |
+//| \|
+//A--B
+//This will make the triang A->B->C and then the triang C->B->D
+
+//C
+//|\
+//| \
+//A--B
+//This will make the triang A->B->C
+	// Construct the quads of the cylinder //
+	
+	for (int i = 0; i < a_nSubdivisions - 3; i++) {
+		AddQuad(point[a_nSubdivisions * 2 - i], point[a_nSubdivisions * 2 - i - 1], point[i + 3], point[i + 4]);
+	}
+	AddQuad(point[a_nSubdivisions * 2 - (a_nSubdivisions - 3)], point[a_nSubdivisions * 2 - (a_nSubdivisions - 2)], point[a_nSubdivisions], point[1]);
+	AddQuad(point[a_nSubdivisions + 2], point[a_nSubdivisions * 2 + 1], point[1], point[1 + 1]);
+	AddQuad(point[a_nSubdivisions * 2 + 1], point[a_nSubdivisions * 2], point[2], point[2 + 1]);
+	//AddQuad(point[a_nSubdivisions * 2], point[a_nSubdivisions * 2 - 1], point[3], point[3 + 1]);
+	//AddQuad(point[a_nSubdivisions * 2 - 1], point[a_nSubdivisions * 2 - 2], point[4], point[4 + 1]);
 
 	//Your code ends here
 	CompileObject(a_v3Color);
