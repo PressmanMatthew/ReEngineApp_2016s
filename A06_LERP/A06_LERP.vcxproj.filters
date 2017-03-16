@@ -21,6 +21,12 @@
     <ClInclude Include="AppClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyPrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\BTO.rc">
@@ -35,6 +41,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPrimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

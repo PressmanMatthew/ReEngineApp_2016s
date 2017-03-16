@@ -7,11 +7,19 @@ Date: 2015/09
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
+#include "MyPrimitive.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
+	vector3 points[11];
+	matrix4 spherePos[11];
+	PrimitiveClass* sphere = nullptr;
+	vector3 currentPos;
+	int lastPoint = 0;
+	float currentPerc = 0.0f;
+	matrix4 transform;
 	float fDuration = 1.0f; //Time Duration of the stops
 public:
 	typedef ReEngAppClass super;
