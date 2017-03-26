@@ -19,7 +19,8 @@ class AppClass : public ReEngAppClass
 	int lastRotationPoint = 0;
 	int nextRotationPoint = 72;
 	vector3 currentPos = vector3(0, 0, 0);
-	vector3 currentRot = vector3(0, 0, 0);
+	float currentRot = 0.0f;
+	vector3 axisOfRot = vector3(0, 0, 1);
 	double revolutionTimer = 0;
 	bool goingOut = true;
 public:

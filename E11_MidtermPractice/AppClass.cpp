@@ -22,9 +22,9 @@ void AppClass::Update(void)
 		revolutionTimer -= 1;
 	}
 
-	currentRot = glm::lerp(vector3(0, 0, lastRotationPoint), vector3(0, 0, nextRotationPoint), (float)revolutionTimer);
+	currentRot = glm::lerp((float)lastRotationPoint, (float)nextRotationPoint, (float)revolutionTimer);
 
-	if (currentRot.z >= nextRotationPoint) 
+	if (currentRot >= nextRotationPoint) 
 	{
 		if (nextRotationPoint == 360) {
 			lastRotationPoint = 0;
@@ -36,7 +36,7 @@ void AppClass::Update(void)
 		}
 	}
 
-	m_m4Steve = glm::rotate(IDENTITY_M4, 0.0f, currentRot);
+	m_m4Steve = glm::rotate(IDENTITY_M4, currentRot, axisOfRot);
 
 #pragma endregion
 #pragma region DOES NOT NEED CHANGES
