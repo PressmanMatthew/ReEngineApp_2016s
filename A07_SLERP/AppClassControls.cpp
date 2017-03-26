@@ -42,7 +42,10 @@ void AppClass::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
 #pragma endregion
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Equal))
+		m_fDay *= .5;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash))
+		m_fDay *= 2;
 #pragma region Other Actions
 	ON_KEY_PRESS_RELEASE(Escape, NULL, PostMessage(m_pWindow->GetHandler(), WM_QUIT, NULL, NULL));
 	ON_KEY_PRESS_RELEASE(F1, NULL, m_pCameraMngr->SetCameraMode(CAMPERSP));

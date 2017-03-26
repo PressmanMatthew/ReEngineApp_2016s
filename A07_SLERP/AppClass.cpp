@@ -47,17 +47,63 @@ void AppClass::Update(void)
 	float fEarthHalfRevTime = 0.5f * m_fDay; // Move for Half a day
 	float fMoonHalfOrbTime = 14.0f * m_fDay; //Moon's orbit is 28 earth days, so half the time for half a route
 
+	//Relative Distances
+	matrix4 earthDist = glm::translate(vector3(11, 0, 0));
+	matrix4 moonDist = glm::translate(vector3(2, 0, 0));
+
+	//Percentages
+	float earthOrbitPerc = fRunTime / fEarthHalfOrbTime;
+	float earthRotPerc = fRunTime / fEarthHalfRevTime;
+	float moonOrbitPerc = fRunTime / fMoonHalfOrbTime;
+
+	//Create Quaternions
+	glm::quat earthOrbitStart = glm::quat(vector3(0));
+	glm::quat earthOrbitEnd = glm::quat(vector3(0, 180, 0));
+
+	glm::quat earthRotStart = glm::quat(vector3(0));
+	glm::quat earthRotEnd = glm::quat(vector3(0, 180, 0));
+
+	glm::quat moonOrbitStart = glm::quat(vector3(0));
+	glm::quat moonOrbitEnd = glm::quat(vector3(0, 180, 0));
+
+	//SLERP between quaternions
+	glm::quat earthOrbitQuat = glm::mix(earthOrbitStart, earthOrbitEnd, earthOrbitPerc);
+	glm::quat earthRotQuat = glm::mix(earthRotStart, earthRotEnd, earthRotPerc);
+	glm::quat moonOrbitQuat = glm::mix(moonOrbitStart, moonOrbitEnd, moonOrbitPerc);
+
+	//Orbits
+	matrix4 earthOrbit = glm::mat4_cast(earthOrbitQuat);
+	matrix4 moonOrbit = glm::mat4_cast(moonOrbitQuat);
+
+	//Rotations
+	matrix4 earthRotation = glm::mat4_cast(earthRotQuat);//glm::rotate(IDENTITY_M4, m_fEarthTimer * 28.0f, vector3(0, 1, 0));
+
+	//Put Matrices together
+	matrix4 earthSpace = earthOrbit * earthDist;
+	m_m4Earth = earthSpace * earthRotation;
+
+	matrix4 moonSpace = moonOrbit * moonDist;
+	m_m4Moon = earthSpace * moonSpace;
+
+	m_m4Sun = glm::translate(IDENTITY_M4, vector3(0));
+
+	//Scaling
+	m_m4Sun = glm::scale(m_m4Sun, m_v3SunScale);
+	m_m4Earth = glm::scale(m_m4Earth, m_v3EarthScale);
+	m_m4Moon = glm::scale(m_m4Moon, m_v3MoonScale);
+
 	//Setting the matrices
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Sun");
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Earth");
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Moon");
+	m_pMeshMngr->SetModelMatrix(m_m4Sun, "Sun");
+	m_pMeshMngr->SetModelMatrix(m_m4Earth, "Earth");
+	m_pMeshMngr->SetModelMatrix(m_m4Moon, "Moon");
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
 
-	static int nEarthOrbits = 0;
-	static int nEarthRevolutions = 0;
-	static int nMoonOrbits = 0;
+	//Change Orbit and Revolution Counts
+	nEarthOrbits = (int)earthOrbitPerc / 2;
+	nEarthRevolutions = (int)earthRotPerc / 2;
+	nMoonOrbits = (int)moonOrbitPerc / 2;
 
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
@@ -106,7 +152,7 @@ void AppClass::Display(void)
 	}
 	
 	m_pMeshMngr->Render(); //renders the render list
-
+	m_pMeshMngr->ClearRenderList();
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
 }
 
