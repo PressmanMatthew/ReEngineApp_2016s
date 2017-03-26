@@ -23,16 +23,21 @@ void AppClass::Update(void)
 
 	currentPos = glm::lerp(transFrom, transTo, (float)dTotalTime);
 
-	/*if (((int)dTotalTime) % 10 == 0)
+	if (dTotalTime > 5)
 	{
-		transFrom = vector3(0, 0, 0);
-		transTo = vector3(0, 1, 0);
+		dTotalTime -= 5;
+		if (goingOut)
+		{
+			goingOut = false;
+			transFrom = vector3(0, 5, 0);
+			transTo = vector3(0, 4, 0);
+		}
+		else {
+			goingOut = true;
+			transFrom = vector3(0, 0, 0);
+			transTo = vector3(0, 1, 0);
+		}
 	}
-	else if (((int)dTotalTime) % 5 == 0) 
-	{
-		transFrom = vector3(0, 5, 0);
-		transTo = vector3(0, 4, 0);
-	}*/
 
 	m_m4Steve = glm::translate(m_m4Steve, currentPos);
 
