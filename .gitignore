@@ -12,3 +12,5 @@ tr.exe.stackdump
 Solution_VS15.sdf
 
 _Binary/A06_LERP\.exe
+
+*.opendb

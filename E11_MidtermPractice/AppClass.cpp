@@ -17,26 +17,24 @@ void AppClass::Update(void)
 #pragma region YOUR CODE GOES HERE
 	m_m4Steve = glm::mat4(1.0f); // same as m_m4Steve = IDENTITY_M4; setting the identity to steve
 
-	revolutionTimer = dTotalTime;
-	if (revolutionTimer > 1) {
-		revolutionTimer -= 1;
-	}
-
-	currentRot = glm::lerp((float)lastRotationPoint, (float)nextRotationPoint, (float)revolutionTimer);
-
-	if (currentRot >= nextRotationPoint) 
-	{
-		if (nextRotationPoint == 360) {
-			lastRotationPoint = 0;
-			nextRotationPoint = 72;
-		}
-		else {
-			lastRotationPoint = nextRotationPoint;
-			nextRotationPoint += 72;
-		}
-	}
+	currentRot = glm::lerp((float)lastRotationPoint, (float)nextRotationPoint, (float)dTotalTime);
 
 	m_m4Steve = glm::rotate(IDENTITY_M4, currentRot, axisOfRot);
+
+	currentPos = glm::lerp(transFrom, transTo, (float)dTotalTime);
+
+	/*if (((int)dTotalTime) % 10 == 0)
+	{
+		transFrom = vector3(0, 0, 0);
+		transTo = vector3(0, 1, 0);
+	}
+	else if (((int)dTotalTime) % 5 == 0) 
+	{
+		transFrom = vector3(0, 5, 0);
+		transTo = vector3(0, 4, 0);
+	}*/
+
+	m_m4Steve = glm::translate(m_m4Steve, currentPos);
 
 #pragma endregion
 #pragma region DOES NOT NEED CHANGES
