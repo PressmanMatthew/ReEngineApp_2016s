@@ -14,8 +14,10 @@ private:
 	vector3 m_v3Max;
 	vector3 m_v3Min;
 	vector3 m_v3Size;
+
 	vector3 m_v3MaxG;
 	vector3 m_v3MinG;
+	vector3 m_v3SizeG;
 public:
 	/*
 	Sets Colliding
