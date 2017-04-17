@@ -71,20 +71,24 @@ void MyBoundingBoxClass::RenderSphere()
 		glm::scale(m_v3Size),
 		v3Color, WIRE);
 
-	m_v3MaxLarge = m_v3MaxG;
-	m_v3MinLarge = m_v3MinG;
-
 	std::vector<vector3> colliderPoints = std::vector<vector3>();
-	colliderPoints.push_back(m_v3MaxG);
-	colliderPoints.push_back(m_v3MinG);
-	colliderPoints.push_back(vector3(m_v3MaxG.x, m_v3MaxG.y, m_v3MinG.z));
-	colliderPoints.push_back(vector3(m_v3MinG.x, m_v3MaxG.y, m_v3MinG.z));
-	colliderPoints.push_back(vector3(m_v3MinG.x, m_v3MaxG.y, m_v3MaxG.z));
-	colliderPoints.push_back(vector3(m_v3MaxG.x, m_v3MinG.y, m_v3MinG.z));
-	colliderPoints.push_back(vector3(m_v3MaxG.x, m_v3MinG.y, m_v3MaxG.z));
-	colliderPoints.push_back(vector3(m_v3MinG.x, m_v3MinG.y, m_v3MaxG.z));
+	colliderPoints.push_back(m_v3Max);
+	colliderPoints.push_back(m_v3Min);
+	colliderPoints.push_back(vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z));
+	colliderPoints.push_back(vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z));
+	colliderPoints.push_back(vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z));
+	colliderPoints.push_back(vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z));
+	colliderPoints.push_back(vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z));
+	colliderPoints.push_back(vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z));
 
-	for (int i = 0; i < colliderPoints.size(); i++) {
+	for (int i = 0; i < 8; i++) {
+		colliderPoints[i] = vector3(m_m4ToWorld * vector4(colliderPoints[i], 1.0f));
+	}
+
+	m_v3MaxLarge = colliderPoints[0];
+	m_v3MinLarge = colliderPoints[0];
+
+	for (int i = 1; i < colliderPoints.size(); i++) {
 		if (m_v3MinLarge.x > colliderPoints[i].x)
 		{
 			m_v3MinLarge.x = colliderPoints[i].x;
