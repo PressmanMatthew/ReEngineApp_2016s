@@ -127,4 +127,3 @@ public:
 		//}
 	}
 };
-BoundingObjectManager* BoundingObjectManager::instance = nullptr;
