@@ -15,8 +15,9 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Minecraft\\Zombie.obj", "Zombie");
 	m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve");
 	m_pMeshMngr->LoadModel("Minecraft\\Cow.obj", "Cow");
+
 	//creating bounding spheres for both models
-	m_pBS0 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Zombie"));
+	//m_pBS0 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Zombie"));
 	m_pBS1 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Steve"));
 	m_pBS2 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Cow"));
 
@@ -25,6 +26,10 @@ void AppClass::InitVariables(void)
 
 	matrix4 m4Position2 = glm::translate(vector3(2.5, 2.0, 0.0));
 	m_pMeshMngr->SetModelMatrix(m4Position2, "Cow");
+
+	m_BOBJ1 = new MyBoundingObject(m_pMeshMngr->GetVertexList("Zombie"));
+	m_BOBJ2 = new MyBoundingObject(m_pMeshMngr->GetVertexList("Cow"));
+
 }
 
 void AppClass::Update(void)
@@ -56,36 +61,47 @@ void AppClass::Update(void)
 	//set the translate to create the transform matrix
 	matrix4 m4Transform = glm::translate(m_v3Position) * ToMatrix4(m_qArcBall);
 	m_pMeshMngr->SetModelMatrix(m4Transform, "Zombie"); //set the matrix to the model
-	m_pBS0->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Zombie"));
-	m_pBS0->RenderSphere();//render the bounding sphere
-		
+	//m_pBS0->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Zombie"));
+	//m_pBS0->RenderSphere();//render the bounding sphere
+	if (m_BOBJ1->GetVisible()) {
+		m_BOBJ1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Zombie"));
+		m_BOBJ1->RenderObject(); //render object
+	}
 
 	m_pMeshMngr->SetModelMatrix(mTranslation, "Steve");
 	m_pBS1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
 	m_pBS1->RenderSphere();
 
-	m_pBS2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Cow"));
-	m_pBS2->RenderSphere();
+	//m_pBS2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Cow"));
+	m_BOBJ2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Cow"));
+	m_BOBJ2->RenderObject();
 
-	m_pBS0->SetColliding(false);
-	m_pBS1->SetColliding(false);
-	m_pBS2->SetColliding(false);
+	m_BOBJ1->SetColliding(false);
+	//m_pBS0->SetColliding(false);
+	m_BOBJ1->SetColliding(false);
+	m_BOBJ2->SetColliding(false);
 
-	if (m_pBS0->IsColliding(m_pBS1))
-	{
-		m_pBS0->SetColliding(true);
-		m_pBS1->SetColliding(true);
+	//if (m_pBS0->IsColliding(m_pBS1))
+	//{
+	//	m_pBS0->SetColliding(true);
+	//	m_pBS1->SetColliding(true);
+	//}
+	//if (m_pBS0->IsColliding(m_pBS2))
+	//{
+	//	m_pBS0->SetColliding(true);
+	//	m_pBS2->SetColliding(true);
+	//}
+
+	if (m_BOBJ1->IsColliding(m_BOBJ2)) {
+		m_BOBJ1->SetColliding(true);
+		m_BOBJ2->SetColliding(true);
 	}
-	if (m_pBS0->IsColliding(m_pBS2))
-	{
-		m_pBS0->SetColliding(true);
-		m_pBS2->SetColliding(true);
-	}
-	if (m_pBS1->IsColliding(m_pBS2))
-	{
-		m_pBS1->SetColliding(true);
-		m_pBS2->SetColliding(true);
-	}
+
+	//if (m_pBS1->IsColliding(m_pBS2))
+	//{
+	//	m_pBS1->SetColliding(true);
+	//	m_pBS2->SetColliding(true);
+	//}
 
 	if (fPercentage > 1.0f)
 	{
@@ -105,7 +121,7 @@ void AppClass::Update(void)
 	m_pMeshMngr->PrintLine("");//Add a line on top
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 
-	m_pMeshMngr->Print("Radius: ");
+	/*m_pMeshMngr->Print("Radius: ");
 	m_pMeshMngr->PrintLine(std::to_string(m_pBS0->GetRadius()), RERED);
 	m_pMeshMngr->Print("Center: (");
 	m_pMeshMngr->Print(std::to_string(m_pBS0->GetCenterGlobal().x), RERED);
@@ -113,7 +129,7 @@ void AppClass::Update(void)
 	m_pMeshMngr->Print(std::to_string(m_pBS0->GetCenterGlobal().y), RERED);
 	m_pMeshMngr->Print(" , ");
 	m_pMeshMngr->Print(std::to_string(m_pBS0->GetCenterGlobal().z), RERED);
-	m_pMeshMngr->PrintLine(")");
+	m_pMeshMngr->PrintLine(")");*/
 
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->Print(std::to_string(nFPS), RERED);
@@ -132,8 +148,10 @@ void AppClass::Display(void)
 
 void AppClass::Release(void)
 {
-	SafeDelete(m_pBS0);
+	SafeDelete(m_BOBJ1);
+	//SafeDelete(m_pBS0);
 	SafeDelete(m_pBS1);
 	SafeDelete(m_pBS2);
+	//m_bObjectMngr->ReleaseInstance();
 	super::Release(); //release the memory of the inherited fields
 }

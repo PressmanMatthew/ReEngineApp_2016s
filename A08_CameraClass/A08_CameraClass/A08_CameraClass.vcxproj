@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C92B3E6F-FE75-4CAF-9957-D0D9437738B5}</ProjectGuid>
-    <RootNamespace>A10_BoundingObjectManager</RootNamespace>
-    <ProjectName>A10_BoundingObjectManager</ProjectName>
+    <ProjectGuid>{940C78BC-7449-4405-A2CA-4915AAD6BD51}</ProjectGuid>
+    <RootNamespace>A08_CameraClass</RootNamespace>
+    <ProjectName>A08_CameraClass</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -107,18 +107,15 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
   <ItemGroup>
     <ClCompile Include="AppClass.cpp" />
     <ClCompile Include="AppClassControls.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MyBoundingBoxClass.cpp" />
-    <ClCompile Include="MyBoundingObject.cpp" />
-    <ClCompile Include="MyBoundingSphereClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\res\Resource.h" />
     <ClInclude Include="AppClass.h" />
-    <ClInclude Include="BoundingObjectManager.h" />
-    <ClInclude Include="MyBoundingBoxClass.h" />
-    <ClInclude Include="MyBoundingObject.h" />
-    <ClInclude Include="MyBoundingSphereClass.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="ClippingPlane.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\BTO.rc" />

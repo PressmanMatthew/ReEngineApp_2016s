@@ -7,29 +7,18 @@ Date: 2015/09 (Last Modified on: 15/11)
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
-#include "MyBoundingSphereClass.h"
-#include "MyBoundingBoxClass.h"
-#include "MyBoundingObject.h"
-#include "BoundingObjectManager.h"
+#include "Camera.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
-	//BoundingObjectManager* m_bObjectMngr = BoundingObjectManager::GetInstance();
-	vector3 m_v3Position;
-	MyBoundingBoxClass* m_pBS0;
-	MyBoundingBoxClass* m_pBS1;
-	MyBoundingBoxClass* m_pBS2;
-
-	MyBoundingObject* m_BOBJ1;
-	MyBoundingObject* m_BOBJ2;
-
+private:
+	Camera m_cCamera;
+	PrimitiveClass* m_pCylinder = nullptr;
 public:
-
-
-
 	typedef ReEngAppClass super;
+
 	/*
 	USAGE: Constructor
 	ARGUMENTS: 
@@ -95,8 +84,6 @@ public:
 	OUTPUT: ---
 	*/
 	virtual void ProcessMouse(void) final;
-
-	virtual void ToggleAll(void) final;
 	/*
 	USAGE: Releases the application
 	IF INHERITED AND OVERRIDEN MAKE SURE TO RELEASE BASE POINTERS (OR CALL BASED CLASS RELEASE)

@@ -7,7 +7,7 @@ void AppClass::ProcessKeyboard(void)
 #pragma region ON_KEY_PRESS_RELEASE
 	static bool	bLastF1 = false, bLastF2 = false, bLastF3 = false, bLastF4 = false, bLastF5 = false,
 				bLastF6 = false, bLastF7 = false, bLastF8 = false, bLastF9 = false, bLastF10 = false,
-				bLastEscape = false, bLastF = false, bLastV = false, bLastB = false;
+				bLastEscape = false, bLastF = false;
 #define ON_KEY_PRESS_RELEASE(key, pressed_action, released_action){  \
 			bool pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::key);			\
 			if(pressed){											\
@@ -24,64 +24,46 @@ void AppClass::ProcessKeyboard(void)
 #pragma region Camera Positioning
 	if(bModifier)
 		fSpeed *= 10.0f;
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		m_pCameraMngr->MoveForward(fSpeed);
+		m_cCamera.MoveForward(fSpeed);
+	}
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		m_pCameraMngr->MoveForward(-fSpeed);
+		m_cCamera.MoveForward(-fSpeed);
+	}
 	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		m_pCameraMngr->MoveSideways(-fSpeed);
+		m_cCamera.MoveSideways(-fSpeed);
+	}
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		m_pCameraMngr->MoveSideways(fSpeed);
+		m_cCamera.MoveSideways(fSpeed);
+	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
 		m_pCameraMngr->MoveVertical(-fSpeed);
+		m_cCamera.MoveVertical(-fSpeed);
+	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
 		m_pCameraMngr->MoveVertical(fSpeed);
+		m_cCamera.MoveVertical(fSpeed);
+	}
 
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
-	//	m_BOBJ->ToggleVisibility()dada;
-	ON_KEY_PRESS_RELEASE(V, NULL, m_BOBJ1->ToggleVisibility());
-	ON_KEY_PRESS_RELEASE(B, NULL, ToggleAll());
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		m_cCamera.ChangePitch(fSpeed);
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+		m_cCamera.ChangeYaw(fSpeed);
+	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		m_v3Position += vector3(-0.1f, 0.0f, 0.0f);
-		m_BOBJ1->SetModelMatrix(glm::translate(m_v3Position));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		m_v3Position += vector3(0.1f, 0.0f, 0.0f);
-		m_BOBJ1->SetModelMatrix(glm::translate(m_v3Position));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		if (!bModifier)
-		{
-			m_v3Position += vector3(0.0f, 0.1f, 0.0f);
-			m_BOBJ1->SetModelMatrix(glm::translate(m_v3Position));
-		}
-		else
-		{
-			m_v3Position += vector3(0.0f, 0.0f,-0.1f);
-			m_BOBJ1->SetModelMatrix(glm::translate(m_v3Position));
-		}
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		if (!bModifier)
-		{
-			m_v3Position += vector3(0.0f, -0.1f, 0.0f);
-			m_BOBJ1->SetModelMatrix(glm::translate(m_v3Position));
-		}
-		else
-		{
-			m_v3Position += vector3(0.0f, 0.0f, 0.1f);
-			m_BOBJ1->SetModelMatrix(glm::translate(m_v3Position));
-		}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+		m_cCamera.ChangeRoll(fSpeed);
 	}
 #pragma endregion
 
@@ -136,9 +118,4 @@ void AppClass::ProcessMouse(void)
 	
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
 		m_bFPC = true;
-}
-
-void AppClass::ToggleAll(void) {
-		m_BOBJ1->ToggleBoundingShape();
-		m_BOBJ2->ToggleBoundingShape();
 }
