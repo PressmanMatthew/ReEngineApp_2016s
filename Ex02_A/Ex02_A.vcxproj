@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{05BD95CA-C5F7-45E3-A252-EF522EAAA809}</ProjectGuid>
-    <RootNamespace>07_RenderTarget</RootNamespace>
-    <ProjectName>07_RenderTarget</ProjectName>
+    <ProjectGuid>{EF217464-AA2F-4BC7-B108-012FA5DC607D}</ProjectGuid>
+    <RootNamespace>Ex02_A</RootNamespace>
+    <ProjectName>Ex02_A</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -108,10 +108,12 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
     <ClCompile Include="AppClass.cpp" />
     <ClCompile Include="AppClassControls.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MyBOClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\res\Resource.h" />
     <ClInclude Include="AppClass.h" />
+    <ClInclude Include="MyBOClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\BTO.rc" />
