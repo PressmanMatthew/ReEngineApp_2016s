@@ -48,14 +48,14 @@
     <TargetName>$(ProjectName)D</TargetName>
     <ExecutablePath>$(SolutionDir)include\GL\bin;$(SolutionDir)include\RE\bin\2015;$(SolutionDir)include\SFML\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(SolutionDir)include;$(SolutionDir)res;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)include\GL\lib;$(SolutionDir)include\RE\lib\2015;$(SolutionDir)include\SFML\lib;$(SolutionDir)include\Bullet\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)include\GL\lib;$(SolutionDir)include\RE\lib\2015;$(SolutionDir)include\SFML\lib;$(SolutionDir)include\Bullet\lib\2015;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Z_DELETE\</OutDir>
     <IntDir>$(SolutionDir)Z_DELETE\$(ProjectName)\$(Configuration)\</IntDir>
     <ExecutablePath>$(SolutionDir)include\GL\bin;$(SolutionDir)include\RE\bin\2015;$(SolutionDir)include\SFML\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(SolutionDir)include;$(SolutionDir)res;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)include\GL\lib;$(SolutionDir)include\RE\lib\2015;$(SolutionDir)include\SFML\lib;$(SolutionDir)include\Bullet\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)include\GL\lib;$(SolutionDir)include\RE\lib\2015;$(SolutionDir)include\SFML\lib;$(SolutionDir)include\Bullet\lib\2015;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -66,7 +66,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ReEng_VS15_d.lib;glu32.lib;glew32.lib;opengl32.lib;sfml-system.lib;sfml-window.lib;BulletCollision_vs2010_Debug.lib;BulletDynamics_vs2010_Debug.lib;LinearMath_vs2010_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ReEng_VS15_d.lib;glu32.lib;glew32.lib;opengl32.lib;sfml-system.lib;sfml-window.lib;BulletCollision_d.lib;BulletDynamics_d.lib;LinearMath_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)_Binary\"
@@ -92,7 +92,7 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>ReEng_VS15.lib;glu32.lib;glew32.lib;opengl32.lib;sfml-system.lib;sfml-window.lib;BulletCollision_vs2010.lib;BulletDynamics_vs2010.lib;LinearMath_vs2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ReEng_VS15.lib;glu32.lib;glew32.lib;opengl32.lib;sfml-system.lib;sfml-window.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)_Binary\"
