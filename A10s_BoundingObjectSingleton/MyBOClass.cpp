@@ -218,8 +218,8 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	// X Plane //
 
 	//Project the halfwidth vectors onto the normal
-	float fProjHalfWidth = glm::dot(m_v3HalfWidthG, vector3(1, 0, 0));
-	float fOtherProjHalfWidth = glm::dot(a_pOther->GetHalfWidthG(), vector3(1, 0, 0));
+	float fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidthG, vector3(1, 0, 0)));
+	float fOtherProjHalfWidth = glm::abs(glm::dot(a_pOther->GetHalfWidthG(), vector3(1, 0, 0)));
 
 	//add those projections together
 	float fAddedProj = fProjHalfWidth + fOtherProjHalfWidth;
@@ -234,8 +234,8 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	// Y Plane //
 
 	//Project the halfwidth vectors onto the normal
-	fProjHalfWidth = glm::dot(m_v3HalfWidthG, vector3(0, 1, 0));
-	fOtherProjHalfWidth = glm::dot(a_pOther->GetHalfWidthG(), vector3(0, 1, 0));
+	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidthG, vector3(0, 1, 0)));
+	fOtherProjHalfWidth = glm::abs(glm::dot(a_pOther->GetHalfWidthG(), vector3(0, 1, 0)));
 
 	//add those projections together
 	fAddedProj = fProjHalfWidth + fOtherProjHalfWidth;
@@ -250,8 +250,8 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	// Z Plane //
 
 	//Project the halfwidth vectors onto the normal
-	fProjHalfWidth = glm::dot(m_v3HalfWidthG, vector3(0, 0, 1));
-	fOtherProjHalfWidth = glm::dot(a_pOther->GetHalfWidthG(), vector3(0, 0, 1));
+	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidthG, vector3(0, 0, 1)));
+	fOtherProjHalfWidth = glm::abs(glm::dot(a_pOther->GetHalfWidthG(), vector3(0, 0, 1)));
 
 	//add those projections together
 	fAddedProj = fProjHalfWidth + fOtherProjHalfWidth;
@@ -268,6 +268,10 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	// Oriented Bounding Box //
 	///////////////////////////
 
+	matrix3 ThisRotation, OtherRotation;
+
+	ThisRotation = (matrix3)(m_m4ToWorld * a_pOther->GetModelMatrix()._inverse());
+	OtherRotation = (matrix3)a_pOther->GetModelMatrix()._inverse();
 
 	// X Plane //
 
@@ -275,49 +279,49 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	vector3 v3OLocalAxisX = glm::normalize(vector3(m_m4ToWorld * vector4(1, 0, 0, 0)));
 	vector3 v3OLocalAxisY = glm::normalize(vector3(m_m4ToWorld * vector4(0, 1, 0, 0)));
 	vector3 v3OLocalAxisZ = glm::normalize(vector3(m_m4ToWorld * vector4(0, 0, 1, 0)));
-
+	
 	//Project the both halfwidths onto that
-	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidthG, v3OLocalAxisX));
-	fOtherProjHalfWidth = glm::dot(a_pOther->GetHalfWidthG(), v3OLocalAxisX);
-
+	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidth, v3OLocalAxisX));
+	fOtherProjHalfWidth = glm::abs(glm::dot(a_pOther->GetHalfWidth(), v3OLocalAxisX));
+	
 	//Add those projections together
 	fAddedProj = fProjHalfWidth + fOtherProjHalfWidth;
-
+	
 	//Get the distance between the 2 centers
 	fDistance = glm::abs(glm::dot(m_v3CenterG - a_pOther->GetCenterGlobal(), vector3(1, 0, 0)));
 	
 	//If the added halfwidths are less then the distance they aren't colliding
 	if (fAddedProj < fDistance) return false;
-
-
+	
+	
 	// Y Plane //
-
+	
 	//Project the both halfwidths onto that
-	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidthG, v3OLocalAxisY));
-	fOtherProjHalfWidth = glm::dot(a_pOther->GetHalfWidthG(), v3OLocalAxisY);
-
+	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidth, v3OLocalAxisY));
+	fOtherProjHalfWidth = glm::abs(glm::dot(a_pOther->GetHalfWidth(), v3OLocalAxisY));
+	
 	//Add those projections together
 	fAddedProj = fProjHalfWidth + fOtherProjHalfWidth;
-
+	
 	//Get the distance between the 2 centers
 	fDistance = glm::abs(glm::dot(m_v3CenterG - a_pOther->GetCenterGlobal(), vector3(0, 1, 0)));
-
+	
 	//If the added halfwidths are less then the distance they aren't colliding
 	if (fAddedProj < fDistance) return false;
 	
-
+	
 	// Z Plane //
-
+	
 	//Project the both halfwidths onto that
-	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidthG, v3OLocalAxisZ));
-	fOtherProjHalfWidth = glm::dot(a_pOther->GetHalfWidthG(), v3OLocalAxisZ);
-
+	fProjHalfWidth = glm::abs(glm::dot(m_v3HalfWidth, v3OLocalAxisZ));
+	fOtherProjHalfWidth = glm::abs(glm::dot(a_pOther->GetHalfWidth(), v3OLocalAxisZ));
+	
 	//Add those projections together
 	fAddedProj = fProjHalfWidth + fOtherProjHalfWidth;
-
+	
 	//Get the distance between the 2 centers
 	fDistance = glm::abs(glm::dot(m_v3CenterG - a_pOther->GetCenterGlobal(), vector3(0, 0, 1)));
-
+	
 	//If the added halfwidths are less then the distance they aren't colliding
 	if (fAddedProj < fDistance) return false;
 
